@@ -1,10 +1,12 @@
-package br.com.apirest.crudpeople.people;
+package br.com.apirest.crudpeople.entities;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.sun.istack.NotNull;
@@ -20,19 +22,21 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "pessoas")
-public class People implements Serializable {
-	
-	private static final long serialVersionUID = 2292607915877614782L;
+public class People {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Long id;
 
 	@NotNull
 	@Column(nullable = false, length = 60, unique = true)
 	public String name;
-	
+
 	@NotNull
 	public String surname;
-	
+
 	public String nickname;
-	
+
 	// Sr, Sra, ...
 	public String formalTreatment;
 
@@ -42,7 +46,7 @@ public class People implements Serializable {
 	@NotNull
 	@Column(nullable = false, length = 10, unique = true)
 	public String rg;
-	
+
 	@NotNull
 	@Column(nullable = false, length = 11, unique = true)
 	public String cpf;
@@ -53,8 +57,8 @@ public class People implements Serializable {
 
 	@NotNull
 	public String address;
-	
+
 	// cel, zap, trabalho, casa
 	public String phone;
-	
+
 }
