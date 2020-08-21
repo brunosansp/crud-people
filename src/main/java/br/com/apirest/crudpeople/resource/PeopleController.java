@@ -28,6 +28,15 @@ public class PeopleController {
 		return PeopleDTO.converter(people);
 	}
 
+	public ResponseEntity<People> find(@PathVariable Long peopleId) {
+		Optional<PeopleDTO> peopleDTO = peopleRepository.findByName(peopleId);
+
+		if (people.isPresent()) {
+			return ResponseEntity.ok(people.get());
+		}
+		return ResponseEntity.notFound().build();
+	}
+
 	@PostMapping
 	@Transactional
 	public People create(@RequestBody People people) {
