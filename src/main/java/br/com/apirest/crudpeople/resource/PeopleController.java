@@ -1,14 +1,19 @@
 package br.com.apirest.crudpeople.resource;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.apirest.crudpeople.dto.PeopleDTO;
@@ -28,17 +33,19 @@ public class PeopleController {
 		return PeopleDTO.converter(people);
 	}
 
+	@GetMapping("/{peopleId}")
 	public ResponseEntity<People> find(@PathVariable Long peopleId) {
-		Optional<PeopleDTO> peopleDTO = peopleRepository.findByName(peopleId);
+		Optional<People> peopleDTO = peopleRepository.findById(peopleId);
 
-		if (people.isPresent()) {
-			return ResponseEntity.ok(people.get());
+		if (peopleDTO.isPresent()) {
+			return ResponseEntity.ok(peopleDTO.get());
 		}
 		return ResponseEntity.notFound().build();
 	}
 
 	@PostMapping
 	@Transactional
+	@ResponseStatus(HttpStatus.CREATED)
 	public People create(@RequestBody People people) {
 		return peopleRepository.save(people);
 	}
